@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 
 const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0)
+  const [mobileCarouselSlide, setMobileCarouselSlide] = useState(0)
 
   // Sample data for carousel cards
   const carouselCards = [
@@ -58,6 +59,40 @@ const Hero = () => {
     }
   ]
 
+  // Static featured cards data
+  const featuredCards = [
+    {
+      id: 1,
+      image: "/pic01.webp",
+      title: "Travis Scott Is Coming to India for His Historic Debut Concert",
+      gradient: "from-orange-500 to-orange-700"
+    },
+    {
+      id: 2,
+      image: "/pic02.webp",
+      title: "Inside the Creator-Verse: A Week of Innovation and...",
+      gradient: "from-teal-500 to-teal-700"
+    },
+    {
+      id: 3,
+      image: "/pic03.webp",
+      title: "Uniting Cultures: Asia Lab CEO and Anushka Sen Connect...",
+      gradient: "from-amber-500 to-amber-700"
+    },
+    {
+      id: 4,
+      image: "/pic04.webp",
+      title: "The 4 Comedy Creators Who Made 2024 a Year to...",
+      gradient: "from-pink-500 to-pink-700"
+    },
+    {
+      id: 5,
+      image: "/pic05.webp",
+      title: "Tanya Khanijow Shines on the Cover Page of Travel and...",
+      gradient: "from-blue-500 to-blue-700"
+    }
+  ]
+
   // Calculate total slides (showing 3 cards at a time)
   const totalSlides = Math.max(1, carouselCards.length - 2)
 
@@ -69,6 +104,15 @@ const Hero = () => {
 
     return () => clearInterval(interval)
   }, [totalSlides])
+
+  // Auto-scroll mobile carousel every 3 seconds
+  useEffect(() => {
+    const mobileInterval = setInterval(() => {
+      setMobileCarouselSlide((prev) => (prev + 1) % featuredCards.length)
+    }, 3000)
+
+    return () => clearInterval(mobileInterval)
+  }, [featuredCards.length])
 
   return (
     <div className="px-4 md:px-6 py-12">
@@ -83,96 +127,76 @@ const Hero = () => {
   </h1>
 </div>
 
-
-        {/* Featured Content Cards - Always Visible */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6 mb-12 lg:mb-16">
-          {/* Card 1 - Travis Scott */}
-          <div className="group cursor-pointer">
-            <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-orange-500 to-orange-700 h-64 lg:h-80">
-              <img 
-                src="/pic01.webp" 
-                alt="Travis Scott" 
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-black/30"></div>
-              <div className="absolute bottom-0 left-0 right-0 p-4 lg:p-6">
-                <h3 className="text-white font-bold text-sm lg:text-lg leading-tight">
-                  Travis Scott Is Coming to India for His Historic Debut Concert
-                </h3>
+        {/* Featured Content Cards - Mobile Carousel, Desktop Static */}
+        {/* Desktop View - Static Grid */}
+        <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6 mb-12 lg:mb-16">
+          {featuredCards.map((card, index) => (
+            <div key={card.id} className="group cursor-pointer">
+              <div className={`relative rounded-2xl overflow-hidden bg-gradient-to-br ${card.gradient} h-64 lg:h-80`}>
+                <img 
+                  src={card.image} 
+                  alt={card.title} 
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-black/30"></div>
+                <div className="absolute bottom-0 left-0 right-0 p-4 lg:p-6">
+                  <h3 className="text-white font-bold text-sm lg:text-lg leading-tight">
+                    {card.title}
+                  </h3>
+                </div>
               </div>
             </div>
-          </div>
+          ))}
+        </div>
 
-          {/* Card 2 - Creator-Verse */}
-          <div className="group cursor-pointer">
-            <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-teal-500 to-teal-700 h-64 lg:h-80">
-              <img 
-                src="/pic02.webp" 
-                alt="Creator Verse" 
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-black/30"></div>
-              <div className="absolute bottom-0 left-0 right-0 p-4 lg:p-6">
-                <h3 className="text-white font-bold text-sm lg:text-lg leading-tight">
-                  Inside the Creator-Verse: A Week of Innovation and...
-                </h3>
+        {/* Mobile View - Carousel */}
+        <div className="md:hidden mb-12">
+          <div className="relative">
+            <div className="overflow-hidden rounded-2xl">
+              <div 
+                className="flex transition-transform duration-500 ease-in-out"
+                style={{ 
+                  transform: `translateX(-${mobileCarouselSlide * 100}%)`,
+                }}
+              >
+                {featuredCards.map((card, index) => (
+                  <div key={card.id} className="flex-shrink-0 w-full">
+                    <div className="group cursor-pointer">
+                      <div className={`relative rounded-2xl overflow-hidden bg-gradient-to-br ${card.gradient} h-64`}>
+                        <img 
+                          src={card.image} 
+                          alt={card.title} 
+                          className="absolute inset-0 w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-black/30"></div>
+                        <div className="absolute bottom-0 left-0 right-0 p-4">
+                          <h3 className="text-white font-bold text-sm leading-tight">
+                            {card.title}
+                          </h3>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-          </div>
-
-          {/* Card 3 - Asia Lab CEO */}
-          <div className="group cursor-pointer">
-            <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-amber-500 to-amber-700 h-64 lg:h-80">
-              <img 
-                src="/pic03.webp" 
-                alt="Asia Lab CEO" 
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-black/30"></div>
-              <div className="absolute bottom-0 left-0 right-0 p-4 lg:p-6">
-                <h3 className="text-white font-bold text-sm lg:text-lg leading-tight">
-                  Uniting Cultures: Asia Lab CEO and Anushka Sen Connect...
-                </h3>
-              </div>
-            </div>
-          </div>
-
-          {/* Card 4 - Comedy Creators */}
-          <div className="group cursor-pointer">
-            <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-pink-500 to-pink-700 h-64 lg:h-80">
-              <img 
-                src="/pic04.webp" 
-                alt="Comedy Creators" 
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-black/30"></div>
-              <div className="absolute bottom-0 left-0 right-0 p-4 lg:p-6">
-                <h3 className="text-white font-bold text-sm lg:text-lg leading-tight">
-                  The 4 Comedy Creators Who Made 2024 a Year to...
-                </h3>
-              </div>
-            </div>
-          </div>
-
-          {/* Card 5 - Tanya Khanijow */}
-          <div className="group cursor-pointer">
-            <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-blue-500 to-blue-700 h-64 lg:h-80">
-              <img 
-                src="/pic05.webp" 
-                alt="Tanya Khanijow" 
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-black/30"></div>
-              <div className="absolute bottom-0 left-0 right-0 p-4 lg:p-6">
-                <h3 className="text-white font-bold text-sm lg:text-lg leading-tight">
-                  Tanya Khanijow Shines on the Cover Page of Travel and...
-                </h3>
-              </div>
+            
+            {/* Mobile Carousel Indicators */}
+            <div className="flex justify-center mt-4 space-x-2">
+              {featuredCards.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setMobileCarouselSlide(index)}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                    mobileCarouselSlide === index 
+                      ? 'bg-gradient-to-r from-purple-400 to-pink-400 scale-110' 
+                      : 'bg-white/30 hover:bg-white/50'
+                  }`}
+                />
+              ))}
             </div>
           </div>
         </div>
-
-
 
         {/* Bottom Carousel Section - Shows 3 cards at a time */}
         <div className="relative">

@@ -28,19 +28,19 @@ const Footer = () => {
           {/* Navigation Links */}
           <div className="lg:col-span-1">
             <nav className="space-y-6">
-              <a href="#" className="block text-gray-300 hover:text-white transition-colors text-lg">
+              <a href="/" className="block text-gray-300 hover:text-white transition-colors text-lg">
                 Home
               </a>
-              <a href="#" className="block text-gray-300 hover:text-white transition-colors text-lg">
+              <a href="/news" className="block text-gray-300 hover:text-white transition-colors text-lg">
                 News
               </a>
-              <a href="#" className="block text-gray-300 hover:text-white transition-colors text-lg">
+              <a href="/entertainment" className="block text-gray-300 hover:text-white transition-colors text-lg">
                 Entertainment
               </a>
-              <a href="#" className="block text-gray-300 hover:text-white transition-colors text-lg">
+              <a href="/influencer" className="block text-gray-300 hover:text-white transition-colors text-lg">
                 Influencer
               </a>
-              <a href="#" className="block text-gray-300 hover:text-white transition-colors text-lg">
+              <a href="/whatshot" className="block text-gray-300 hover:text-white transition-colors text-lg">
                 What's Hot
               </a>
             </nav>
